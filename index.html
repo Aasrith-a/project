@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Tracking Dashboard</title>
+  <!-- React & ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #f4f6f8;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #1f2937;
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin: 20px 0;
+      cursor: pointer;
+    }
+
+    .content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .tracking-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .tracking-table th, .tracking-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .tracking-table th {
+      background-color: #f0f0f0;
+    }
+
+    .status {
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      display: inline-block;
+    }
+
+    .status.active {
+      background-color: #34d399;
+      color: white;
+    }
+
+    .status.inactive {
+      background-color: #f87171;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+      .content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const trackingData = [
+      { id: 1, name: 'Camera 1', status: 'active', location: 'Entrance', lastUpdate: '2025-09-25 10:21' },
+      { id: 2, name: 'Camera 2', status: 'inactive', location: 'Lobby', lastUpdate: '2025-09-25 09:58' },
+      { id: 3, name: 'Drone A', status: 'active', location: 'Parking Lot', lastUpdate: '2025-09-25 10:25' },
+      { id: 4, name: 'Sensor B', status: 'inactive', location: 'Warehouse', lastUpdate: '2025-09-25 08:42' },
+    ];
+
+    function Sidebar() {
+      return (
+        <div className="sidebar">
+          <h2>AI Tracker</h2>
+          <ul>
+            <li>Dashboard</li>
+            <li>Devices</li>
+            <li>Reports</li>
+            <li>Settings</li>
+          </ul>
+        </div>
+      );
+    }
+
+    function Header() {
+      return (
+        <div className="header">
+          <h1>AI Tracking System</h1>
+          <div>{new Date().toLocaleString()}</div>
+        </div>
+      );
+    }
+
+    function TrackingTable() {
+      return (
+        <table className="tracking-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Device</th>
+              <th>Status</th>
+              <th>Location</th>
+              <th>Last Update</th>
+            </tr>
+          </thead>
+          <tbody>
+            {trackingData.map(device => (
+              <tr key={device.id}>
+                <td>{device.id}</td>
+                <td>{device.name}</td>
+                <td>
+                  <span className={`status ${device.status}`}>
+                    {device.status}
+                  </span>
+                </td>
+                <td>{device.location}</td>
+                <td>{device.lastUpdate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          <Sidebar />
+          <div className="content">
+            <Header />
+            <TrackingTable />
+          </div>
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
